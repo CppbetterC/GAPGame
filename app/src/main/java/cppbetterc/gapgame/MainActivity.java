@@ -55,48 +55,14 @@ public class MainActivity extends AppCompatActivity {
         //下方的 AsyncLogin() class
         new AsyncLogin().execute(username,password);
     }
-    //read the  context from the file;
-    private void writeToFile(String data,Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
 
-    //read the ip address from the file;
-    private String readFromFile(Context context) {
-        String str = "";
-        try {
-            InputStream inputStream = context.openFileInput("D:/ANDROID_APP/GAPGame/ip_address.txt");
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-                while ((receiveString = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(receiveString);
-                }
-                inputStream.close();
-                str = stringBuilder.toString();
-            }
+    private class AsyncLogin extends AsyncTask<String,String ,String> {
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return str;
-    }
-        private class AsyncLogin extends AsyncTask<String,String ,String>
-    {
         ProgressDialog pdLoading = new ProgressDialog(MainActivity.this);
         HttpURLConnection conn;
         URL url=null;
         private static  final String TAG="MainActivity";
+        ReadFile readFile = new ReadFile();
 
         @Override
         protected  void onPreExecute(){
@@ -111,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
             try{
                 //Enter URL address where your php file resides
                 //use read file to get the ip adddress with java program
-                url=new URL("http://"+readFromFile(null)+"/cppbetterc/loginc.php");
+                String str = readFile.readFromFile(null);
+                Log.d("str", str);
+                url=new URL("http://"+readFile.readFromFile(null)+"/cppbetterc/loginc.php");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
