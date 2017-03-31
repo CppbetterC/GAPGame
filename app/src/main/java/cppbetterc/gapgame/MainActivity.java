@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         HttpURLConnection conn;
         URL url=null;
         private static  final String TAG="MainActivity";
-        ReadFile readFile = new ReadFile();
+
 
         @Override
         protected  void onPreExecute(){
@@ -77,9 +77,11 @@ public class MainActivity extends AppCompatActivity {
             try{
                 //Enter URL address where your php file resides
                 //use read file to get the ip adddress with java program
-                String str = readFile.readFromFile(null);
-                Log.d("str", str);
-                url=new URL("http://"+readFile.readFromFile(null)+"/cppbetterc/loginc.php");
+                //Log.d("str", str);
+
+                //change 127.0.0.1 ,this ip address to your server's ip address;
+                url=new URL("http://127.0.0.1/cppbetterc/loginc.php");
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
