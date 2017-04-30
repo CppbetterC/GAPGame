@@ -39,6 +39,11 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         setSupportActionBar(toolbar);
 
         setTitle("個人資訊");
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+//        actionBar.setLogo(R.drawable.ic_menu_camera);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,18 +53,14 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                         .setAction("Action", null).show();
             }
         });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //actionBar.setLogo(R.drawable.ic_menu_camera);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
         LocationManager status = (LocationManager) (this.getSystemService(Context.LOCATION_SERVICE));
         if (status.isProviderEnabled(LocationManager.GPS_PROVIDER) || status.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -93,7 +94,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -111,17 +111,33 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (item.getItemId()){
-            case R.id.launch_game_id:
+            case R.id.action_settings:{
+                Toast.makeText(getApplicationContext(),"Setting option selected",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            case R.id.logout_id:{
+                Intent intent = new Intent(CreateNewGame.this,MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.launch_game_id:{
                 Toast.makeText(getApplicationContext(),"LaunchGame option selected",Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.joinGame_id:
-                Toast.makeText(getApplicationContext(),"JoinGame option selected",Toast.LENGTH_SHORT).show();
+            }
+            case R.id.joinGame_id: {
+                Toast.makeText(getApplicationContext(), "JoinGame option selected", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.loading_id:
-                Toast.makeText(getApplicationContext(),"Loding option selected",Toast.LENGTH_SHORT).show();
+            }
+            case R.id.loading_id: {
+                Toast.makeText(getApplicationContext(), "Loding option selected", Toast.LENGTH_SHORT).show();
                 return true;
-            default:
+            }
+            default:{
                 return super.onOptionsItemSelected(item);
+            }
+
         }
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
@@ -181,5 +197,9 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+    @Override
+    public void onStop(){
+        super.onStop();
     }
 }
