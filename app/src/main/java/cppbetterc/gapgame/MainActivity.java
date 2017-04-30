@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("str", str);
 
                 //change 127.0.0.1 ,this ip address to your server's ip address;
-                url=new URL("http://127.0.0.1/cppbetterc/loginc.php");
+                url=new URL("http://127..0.0.1/cppbetterc/loginc.php");
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             Here launching another activity when login successful. If you persist login state
             use sharedPreferences of Android. and logout button to clear sharedPreferences.
              */
-                Intent intent = new Intent(getApplicationContext(), StartPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CreateNewGame.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 //Log.e("IOException", "exception", e);
