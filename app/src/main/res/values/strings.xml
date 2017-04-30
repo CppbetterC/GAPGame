@@ -7,4 +7,5 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_new_game">NewGame</string>
+    <string name="title_activity_launch_game">LaunchGame</string>
 </resources>

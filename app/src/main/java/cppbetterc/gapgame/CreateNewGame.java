@@ -2,8 +2,10 @@ package cppbetterc.gapgame;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,6 +16,8 @@ import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,12 +28,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class CreateNewGame extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,LocationListener {
 
     private LocationManager lms;
     private Location location;
+    private AlertDialog dialog = null;
+    private  String [] str_list = {"資訊系迎新宿營大地遊戲","認識逢甲","認識東海"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +89,8 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
             Toast.makeText(this,"請開啟定位服務",Toast.LENGTH_LONG).show();
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         }
-    }
 
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,18 +123,46 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                 return true;
             }
             case R.id.logout_id:{
-                Intent intent = new Intent(CreateNewGame.this,MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("即將登出")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(CreateNewGame.this,MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Canael", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //To Do Thing
+                            }
+                        });
+                dialog = builder.create();
+                dialog.show();
                 return true;
             }
             case R.id.launch_game_id:{
-                Toast.makeText(getApplicationContext(),"LaunchGame option selected",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+//                Toast.makeText(getApplicationContext(),"LaunchGame option selected",Toast.LENGTH_SHORT).show();
                 return true;
             }
             case R.id.joinGame_id: {
-                Toast.makeText(getApplicationContext(), "JoinGame option selected", Toast.LENGTH_SHORT).show();
+                final View content_layout = LayoutInflater.from(CreateNewGame.this).inflate(R.layout.joingame_click_content,null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("JoinGame")
+                        .setView(content_layout)
+                        .setPositiveButton("OK" , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //To do thing
+                            }
+                        });
+                dialog = builder.create();
+                dialog.show();
+//                Toast.makeText(getApplicationContext(), "JoinGame option selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
             case R.id.loading_id: {
