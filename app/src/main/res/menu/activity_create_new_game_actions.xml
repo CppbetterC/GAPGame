@@ -1,31 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">>
-
-    <item android:id="@+id/settings_id"
-        android:title="設定"
-        android:icon="@drawable/settings"
-        app:showAsAction="never"></item>
-
-    <item android:id="@+id/logout_id"
-        android:title="登出"
-        android:icon="@drawable/settings"
-        app:showAsAction="never"></item>
-
     <item android:id="@+id/launch_game_id"
         android:title="主持"
         android:icon="@drawable/launch_game"
         app:showAsAction="always"></item>
-
     <item android:id = "@+id/joinGame_id"
         android:title = "加入"
         android:icon = "@drawable/join_game"
         app:showAsAction = "always"
         ></item>
-
-    <item
-        android:id="@+id/loading_id"
-        android:icon="@drawable/load_game"
+    <item android:id="@+id/loading_id"
         android:title="載入"
+        android:icon="@drawable/load_game"
         app:showAsAction="always"></item>
 </menu>

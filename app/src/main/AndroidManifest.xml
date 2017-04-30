@@ -24,7 +24,7 @@
         <activity
             android:name=".CreateNewGame"
             android:label="@string/title_activity_create_new_game"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
