@@ -51,7 +51,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +144,8 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                 return true;
             }
             case R.id.launch_game_id:{
-                Intent intent = new Intent();
+                Intent intent = new Intent(CreateNewGame.this,LaunchGame.class);
+                startActivity(intent);
 //                Toast.makeText(getApplicationContext(),"LaunchGame option selected",Toast.LENGTH_SHORT).show();
                 return true;
             }
