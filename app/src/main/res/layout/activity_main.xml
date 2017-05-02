@@ -7,14 +7,17 @@
     android:orientation="vertical">
 
     <TableLayout
-
-        android:id="@+id/tableLayout"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="14dp">
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp">
+
+        <TableRow>
+
+        </TableRow>
 
         <EditText
             android:id="@+id/username"
@@ -33,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/button"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="72dp"
+            android:layout_marginBottom="40dp"
             android:hint="password"
             android:inputType="textPassword"
             tools:text="Password" />
@@ -41,6 +44,7 @@
     </TableLayout>
 
     <Button
+        style="@style/AppThemeMaterial"
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,11 +56,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="-50dp"
+        android:layout_weight="1"
         app:srcCompat="@drawable/login_game" />
 
 </LinearLayout>
