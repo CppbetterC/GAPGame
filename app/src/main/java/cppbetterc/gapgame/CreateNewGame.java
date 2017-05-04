@@ -1,9 +1,9 @@
 package cppbetterc.gapgame;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -11,9 +11,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -30,6 +30,8 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
 
     private LocationManager lms;
     private Location location;
+    private AlertDialog dialog = null;
+    private  String [] str_list = {"資訊系迎新宿營大地遊戲","認識逢甲","認識東海"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +46,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -82,8 +75,8 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
             Toast.makeText(this,"請開啟定位服務",Toast.LENGTH_LONG).show();
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         }
-    }
 
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,23 +109,64 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                 return true;
             }
             case R.id.logout_id:{
-                Intent intent = new Intent(CreateNewGame.this,MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("即將登出")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(CreateNewGame.this,MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Canael", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //To Do Thing
+                            }
+                        });
+                dialog = builder.create();
+                dialog.show();
                 return true;
             }
             case R.id.launch_game_id:{
-                Toast.makeText(getApplicationContext(),"LaunchGame option selected",Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            case R.id.joinGame_id: {
-                Toast.makeText(getApplicationContext(), "JoinGame option selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CreateNewGame.this,LaunchGame.class);
+                startActivity(intent);
+//                Toast.makeText(getApplicationContext(),"LaunchGame option selected",Toast.LENGTH_SHORT).show();
                 return true;
             }
             case R.id.loading_id: {
-                Toast.makeText(getApplicationContext(), "Loding option selected", Toast.LENGTH_SHORT).show();
+                final View LinearLayout = LayoutInflater.from(CreateNewGame.this).inflate(R.layout.loadgame_click_content,null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("LoinGame")
+                        .setView(LinearLayout)
+                        .setPositiveButton("OK" , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //To do thing
+                            }
+                        });
+                dialog = builder.create();
+                dialog.show();
+//                Toast.makeText(getApplicationContext(), "JoinGame option selected", Toast.LENGTH_SHORT).show();
                 return true;
+            }
+            case R.id.joinGame_id: {
+                final View LinearLayout = LayoutInflater.from(CreateNewGame.this).inflate(R.layout.joingame_click_content, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("邀請碼")
+                        .setView(LinearLayout) //設定內容外觀
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener()
+                        { //設定確定按鈕
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                //To do thing
+                            }
+                        });
+                dialog = builder.create(); //建立對話方塊並存成 dialog
+                dialog.show();
             }
             default:{
                 return super.onOptionsItemSelected(item);
@@ -153,11 +187,11 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         FragmentManager fragmentManager = getFragmentManager(); //error ??
 
         if (id == R.id.nav_first_layout) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new FirstFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.LinearLayout, new FirstFragment()).commit();
         } else if (id == R.id.nav_second_layout) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new SecondFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.LinearLayout, new SecondFragment()).commit();
         } else if (id == R.id.nav_third_layout) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new ThirdFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.LinearLayout, new ThirdFragment()).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +26,10 @@
         <activity
             android:name=".CreateNewGame"
             android:label="@string/title_activity_create_new_game"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LaunchGame"
+            android:label="@string/title_activity_launch_game"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
