@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("str", str);
 
                 //change 127.0.0.1 ,this ip address to your server's ip address;
-                url=new URL("http://127.0.0.1/cppbetterc/loginc.php");
+                url=new URL("http://140.134.26.31/cppbetterc/loginc.php");
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
