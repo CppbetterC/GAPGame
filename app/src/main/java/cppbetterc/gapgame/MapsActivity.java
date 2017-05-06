@@ -9,15 +9,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,6 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
 
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
@@ -37,15 +35,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location location;
     private LatLng reLatLng,regulate;
     private float CameraPosition;
-    private FloatingActionButton button;
-    private ToggleButton toggle;
+    private Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        button = (FloatingActionButton) findViewById(R.id.nowlocation);
+        button = (Button) findViewById(R.id.nowlocation);
         mapFragment.getMapAsync(this);
         LocationManager status = (LocationManager) (this.getSystemService(Context.LOCATION_SERVICE));
         if (status.isProviderEnabled(LocationManager.GPS_PROVIDER) || status.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -62,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lms.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000,0,this);
         button.setOnClickListener(listen);
     }
+
     private View.OnClickListener listen = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

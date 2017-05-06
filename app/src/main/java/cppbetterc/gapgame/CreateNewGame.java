@@ -41,6 +41,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 public class CreateNewGame extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,LocationListener {
 
@@ -183,10 +184,11 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-
-                        String game_key = etGamekey.getText().toString();
+                        Intent intent = new Intent(CreateNewGame.this, MapsActivity.class);
+                        startActivity(intent);
+                        //String game_key = etGamekey.getText().toString();
                         //Toast.makeText(CreateNewGame.this, game_key, Toast.LENGTH_SHORT).show();
-                        new CreateNewGame.AsyncGetGameInformation().execute(game_key);
+                        //new CreateNewGame.AsyncGetGameInformation().execute(game_key);
                     }
                 });
                 dialog = builder.create(); //建立對話方塊並存成 dialog
