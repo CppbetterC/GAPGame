@@ -38,7 +38,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng reLatLng,regulate;
     private float CameraPosition;
     private FloatingActionButton button;
-    private ToggleButton toggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

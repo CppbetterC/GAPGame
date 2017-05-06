@@ -31,6 +31,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import junit.framework.Test;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -42,7 +44,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class CreateNewGame extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,LocationListener {
+public class CreateNewGame extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private LocationManager lms;
     private Location location;
@@ -71,28 +73,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-        LocationManager status = (LocationManager) (this.getSystemService(Context.LOCATION_SERVICE));
-        if (status.isProviderEnabled(LocationManager.GPS_PROVIDER) || status.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            lms = (LocationManager) getSystemService(LOCATION_SERVICE);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            location = lms.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            getLocation(location);
-        }
-        else{
-            Toast.makeText(this,"請開啟定位服務",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-        }
 
     }
     @Override
@@ -237,26 +217,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
             Toast.makeText(this, "無法定位座標", Toast.LENGTH_LONG).show();
         }
     }
-    @Override
-    public void onLocationChanged(Location location) {
-        getLocation(location);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
     private class AsyncGetGameInformation extends AsyncTask<String, String ,String> {
 
         ProgressDialog pdLoading = new ProgressDialog(CreateNewGame.this);
