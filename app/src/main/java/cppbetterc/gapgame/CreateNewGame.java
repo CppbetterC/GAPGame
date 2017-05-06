@@ -291,7 +291,7 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         protected  void onPostExecute(String result){
             pdLoading.dismiss();
             if(result.equalsIgnoreCase("true")){
-                Intent intent = new Intent(CreateNewGame.this, MapsActivity.class);
+                Intent intent = new Intent(CreateNewGame.this, SwipeActivity.class);
                 startActivity(intent);
             }
             else if(result.equalsIgnoreCase("false")){
