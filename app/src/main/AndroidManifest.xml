@@ -31,6 +31,7 @@
             android:name=".LaunchGame"
             android:label="@string/title_activity_launch_game"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>
