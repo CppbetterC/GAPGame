@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -35,19 +37,24 @@ public class LaunchGame extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT=1000000;
     public static final int READ_TIMEOUT=1000000;
     private AlertDialog dialog = null;
+    private EditText etLaunchGame;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_game);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        button = (Button)findViewById(R.id.bt_launch);
+        etLaunchGame = (EditText) findViewById(R.id.ed_game_name);
+
+        setSupportActionBar(toolbar);
         setTitle("主持新遊戲");
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-
+        button.setOnClickListener(listener);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,6 +97,13 @@ public class LaunchGame extends AppCompatActivity {
             }
         }
     }
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final String launch_game  = etLaunchGame.getText().toString();
+            new AsyncLaunchGame().execute(launch_game);
+        }
+    };
     private class AsyncLaunchGame extends AsyncTask<String,String ,String> {
 
         ProgressDialog pdLoading = new ProgressDialog(LaunchGame.this);
@@ -111,25 +125,17 @@ public class LaunchGame extends AppCompatActivity {
                 e.printStackTrace();
                 return "exception";
             }
-            //Log.v("TAG","checkpoint");
             try{
-                //Set HttpURLConnection class to send and receive data from php and mysql
                 conn=(HttpURLConnection)url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
-
-                //set DoInput and DoOutput method depict(描繪) handing of both send and service
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
 
-                //Append(附加) parameters to URL(使用Uri)
                 Uri.Builder builder=new Uri.Builder()
-                        .appendQueryParameter("username",params[0])
-                        .appendQueryParameter("password",params[1]);
+                        .appendQueryParameter("game_name",params[0]);
                 String query = builder.build().getEncodedQuery();
-
-                //Open connection for sending data
                 OutputStream os=conn.getOutputStream();
                 BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
                 writer.write(query);
@@ -146,20 +152,15 @@ public class LaunchGame extends AppCompatActivity {
             try{
                 int response_code = conn.getResponseCode();
                 Log.e("exception", conn.toString());
-                //Check if successful connection made
                 if(response_code == HttpURLConnection.HTTP_OK){
-                    //read data sent from server
                     InputStream input = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-
                     StringBuilder result = new StringBuilder();
                     String line;
-
                     while((line = reader.readLine())!=null){
                         result.append(line);
                     }
                     Log.d("result", result.toString());
-                    //pass data to onPostExecute method
                     return result.toString();
                 }
                 else{
@@ -176,14 +177,13 @@ public class LaunchGame extends AppCompatActivity {
         }
         @Override
         protected  void onPostExecute(String result){
+            //this method will be running on UI thread
             pdLoading.dismiss();
             if(result.equalsIgnoreCase("true")){
-                Intent intent = new Intent(getApplicationContext(), CreateNewGame.class);
-                startActivity(intent);
+                Toast.makeText(LaunchGame.this,"Success to add game",Toast.LENGTH_LONG).show();
             }
             else if(result.equalsIgnoreCase("false")){
-                // If username and password does not match display a error message
-                Toast.makeText(LaunchGame.this,"Invalid username or password",Toast.LENGTH_LONG).show();
+                Toast.makeText(LaunchGame.this,"Faliure to add game",Toast.LENGTH_LONG).show();
             }
         }
     }

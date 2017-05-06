@@ -132,7 +132,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
             case R.id.launch_game_id:{
                 Intent intent = new Intent(CreateNewGame.this,LaunchGame.class);
                 startActivity(intent);
-//                Toast.makeText(getApplicationContext(),"LaunchGame option selected",Toast.LENGTH_SHORT).show();
                 return true;
             }
             case R.id.loading_id: {

@@ -10,6 +10,8 @@
     <string name="title_activity_launch_game">LaunchGame</string>
     <string name="title_activity_loading_game">Settings</string>
 
+    <string name="initial_game">initialGame</string>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
