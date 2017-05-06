@@ -43,6 +43,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 public class CreateNewGame extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -165,7 +166,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                     {
 
                         String game_key = etGamekey.getText().toString();
-                        //Toast.makeText(CreateNewGame.this, game_key, Toast.LENGTH_SHORT).show();
                         new CreateNewGame.AsyncGetGameInformation().execute(game_key);
                     }
                 });
@@ -292,7 +292,7 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         protected  void onPostExecute(String result){
             pdLoading.dismiss();
             if(result.equalsIgnoreCase("true")){
-                Intent intent = new Intent(CreateNewGame.this, TestActivity.class);
+                Intent intent = new Intent(CreateNewGame.this, MapsActivity.class);
                 startActivity(intent);
             }
             else if(result.equalsIgnoreCase("false")){
