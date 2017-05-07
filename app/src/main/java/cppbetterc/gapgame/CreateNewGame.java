@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
     public static final int CONNECTION_TIMEOUT=1000000;
     public  final int READ_TIMEOUT=1000000;
     private ListView  createGamelistView;
+    MainActivity m = new MainActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -290,12 +292,34 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         protected  void onPostExecute(String result){
             pdLoading.dismiss();
             if(result.equalsIgnoreCase("true")){
-                Intent intent = new Intent(CreateNewGame.this, MapsActivity.class);
+                Intent intent = new Intent(CreateNewGame.this, SwipeActivity.class);
                 startActivity(intent);
             }
             else if(result.equalsIgnoreCase("false")){
                 Toast.makeText(CreateNewGame.this,"Invalid KeyName",Toast.LENGTH_LONG).show();
             }
         }
+    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            ConfirmExit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    public void ConfirmExit(){
+        AlertDialog.Builder ad=new AlertDialog.Builder(CreateNewGame.this);
+        ad.setTitle("離開");
+        ad.setMessage("確定要離開?");
+        ad.setPositiveButton("是", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+                CreateNewGame.this.finish();
+            }
+        });
+        ad.setNegativeButton("否",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+            }
+        });
+        ad.show();
     }
 }

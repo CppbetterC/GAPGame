@@ -54,12 +54,17 @@
         android:onClick="checkLogin"
         android:text="LOGIN" />
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-50dp"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/login_game" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-65dp"
+            app:srcCompat="@drawable/login_game" />
+    </LinearLayout>
+
 
 </LinearLayout>

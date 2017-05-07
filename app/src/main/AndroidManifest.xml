@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,8 +31,7 @@
             android:name=".LaunchGame"
             android:label="@string/title_activity_launch_game"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -48,7 +47,14 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".SwipeActivity"
+            android:label="@string/title_activity_swipe"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+
+
     </application>
 
 </manifest>
