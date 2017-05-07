@@ -37,7 +37,7 @@ public class LaunchGame extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT=1000000;
     public static final int READ_TIMEOUT=1000000;
     private AlertDialog dialog = null;
-    private EditText etLaunchGame;
+    private EditText etLaunchGame,etHostName;
     private Button button;
 
     @Override
@@ -48,6 +48,7 @@ public class LaunchGame extends AppCompatActivity {
 
         button = (Button)findViewById(R.id.bt_launch);
         etLaunchGame = (EditText) findViewById(R.id.ed_game_name);
+        etHostName =(EditText) findViewById(R.id.ed_host_name);
 
         setSupportActionBar(toolbar);
         setTitle("主持新遊戲");
@@ -101,7 +102,11 @@ public class LaunchGame extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             final String launch_game  = etLaunchGame.getText().toString();
-            new AsyncLaunchGame().execute(launch_game);
+            final String host_name = etHostName.getText().toString();
+            new AsyncLaunchGame().execute(launch_game,host_name);
+            //bug input "" will insert to the database
+            Intent intent = new Intent(LaunchGame.this,CreateNewGame.class);
+            startActivity(intent);
         }
     };
     private class AsyncLaunchGame extends AsyncTask<String,String ,String> {
@@ -134,7 +139,8 @@ public class LaunchGame extends AppCompatActivity {
                 conn.setDoOutput(true);
 
                 Uri.Builder builder=new Uri.Builder()
-                        .appendQueryParameter("game_name",params[0]);
+                        .appendQueryParameter("game_name",params[0])
+                        .appendQueryParameter("host_name",params[1]);
                 String query = builder.build().getEncodedQuery();
                 OutputStream os=conn.getOutputStream();
                 BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));

@@ -1,20 +1,13 @@
 package cppbetterc.gapgame;
 
-import android.Manifest;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,10 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
-
-import junit.framework.Test;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -43,16 +36,18 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Map;
 
 public class CreateNewGame extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private LocationManager lms;
-    private Location location;
     private AlertDialog dialog = null;
-    private  String [] str_list = {"資訊系迎新宿營大地遊戲","認識逢甲","認識東海"};
+    public String [][] data = {
+            {"認識逢甲","蔡昌銘"},
+            {"認識東海","陳柏翔"},
+            {"認識士林","鄭世麟"}
+    };
     public static final int CONNECTION_TIMEOUT=1000000;
-    public static final int READ_TIMEOUT=1000000;
+    public  final int READ_TIMEOUT=1000000;
+    private ListView  createGamelistView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +70,21 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+//        createGamelistView = (ListView)findViewById(R.id.list);
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        LoadingGameAdapter gameAdapter = new LoadingGameAdapter(data,inflater);
+//        createGamelistView.setAdapter(gameAdapter);
+//        createGamelistView.setOnItemClickListener(onClickListView);
+
     }
+    private AdapterView.OnItemClickListener onClickListView =new AdapterView.OnItemClickListener(){
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(CreateNewGame.this,"成功",Toast.LENGTH_LONG).show();
+        }
+    };
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -135,14 +144,18 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                 return true;
             }
             case R.id.loading_id: {
+                // input SQL Query
+                final String selectSQL = "SELECT * FROM game_information";
+                new CreateNewGame.AsyncGetGameInformation().execute("getGameInformation",selectSQL);
+
                 final View LinearLayout = LayoutInflater.from(CreateNewGame.this).inflate(R.layout.loadgame_click_content,null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("LoinGame")
+                builder.setTitle("LoadingGame")
                         .setView(LinearLayout)
-                        .setPositiveButton("OK" , new DialogInterface.OnClickListener() {
+                        .setPositiveButton("取消" , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //To do thing
+                                //to do;
                             }
                         });
                 dialog = builder.create();
@@ -163,9 +176,8 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-
                         String game_key = etGamekey.getText().toString();
-                        new CreateNewGame.AsyncGetGameInformation().execute(game_key);
+                        new CreateNewGame.AsyncGetGameInformation().execute("getGameKey",game_key );
                     }
                 });
                 dialog = builder.create(); //建立對話方塊並存成 dialog
@@ -200,27 +212,15 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-
-
-    }
-    public void getLocation(Location loc) {
-        if (loc != null) {
-            //經度 longitude; 緯度 latitude
-            Double longitude = loc.getLongitude();
-            Double latitude = location.getLatitude();
-        } else {
-            Toast.makeText(this, "無法定位座標", Toast.LENGTH_LONG).show();
-        }
     }
     private class AsyncGetGameInformation extends AsyncTask<String, String ,String> {
 
         ProgressDialog pdLoading = new ProgressDialog(CreateNewGame.this);
         HttpURLConnection conn;
-        URL url=null;
+        URL url = null;
 
         @Override
         protected  void onPreExecute(){
@@ -231,8 +231,9 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         }
         @Override
         protected String doInBackground(String... params) {
+            String str = params[0];
             try{
-                url=new URL("http://140.134.26.31/cppbetterc/getGameKey.php");
+                url = new URL("http://140.134.26.31/cppbetterc/"+ str + ".php");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -245,7 +246,7 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 Uri.Builder builder=new Uri.Builder()
-                        .appendQueryParameter("game_key", params[0]);
+                        .appendQueryParameter("game_key", params[1]);
                 String query = builder.build().getEncodedQuery();
                 OutputStream os=conn.getOutputStream();
                 BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
@@ -271,7 +272,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                     while((line = reader.readLine())!=null){
                         result.append(line);
                     }
-                    //Log.d("result", result.toString());
                     return result.toString();
                 }
                 else{
@@ -286,7 +286,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                 conn.disconnect();
             }
         }
-        //包在inner class裡
         @Override
         protected  void onPostExecute(String result){
             pdLoading.dismiss();
