@@ -46,9 +46,6 @@
             android:value="AIzaSyCsZVM5w86_EwdWqeprFvXvMq1i185b7ZQ" />
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity
             android:name=".SwipeActivity"
             android:label="@string/title_activity_swipe"
             android:theme="@style/AppTheme.NoActionBar"></activity>

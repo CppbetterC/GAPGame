@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 
 
-public class SwipeActivity extends AppCompatActivity {
+public class SwipeActivity extends AppCompatActivity{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
