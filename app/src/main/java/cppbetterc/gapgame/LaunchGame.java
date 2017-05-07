@@ -125,7 +125,7 @@ public class LaunchGame extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try{
-                url=new URL("http://140.134.26.31/cppbetterc/launchgame.php");
+                url=new URL("http://127.0.0.1/cppbetterc/launchgame.php");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
