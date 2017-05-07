@@ -59,7 +59,7 @@ public class LoadingGameAdapter extends BaseAdapter{
         }
         holder.gameName.setText(gameList[position][0]);
         holder.gameHost.setText(gameList[position][1]);
-        holder.rlBorder.setBackgroundColor(Color.parseColor("#FFDBC9"));
-        return null;
+//        holder.rlBorder.setBackgroundColor(Color.parseColor("#87CEEB"));
+        return convertView;
     }
 }

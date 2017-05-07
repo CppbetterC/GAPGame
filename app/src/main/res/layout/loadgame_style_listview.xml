@@ -7,66 +7,41 @@
     <LinearLayout
         android:id="@+id/llBorder"
         android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
+        <!--android:layout_marginTop="50dp"-->
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/loading_game_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_weight="0.42"
+            android:textAlignment="textStart"
+            android:textStyle="bold" />
 
-            <!--<TextView-->
-            <!--android:id="@+id/loading_game_title"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="遊戲"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textSize="24sp"-->
-            <!--android:textStyle="bold" />-->
+        <TextView
+            android:id="@+id/loading_game_host_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.42"
+            android:text="主持人:" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:weightSum="1">
+        <TextView
+            android:id="@+id/loading_game_host"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.42" />
 
-                <TextView
-                    android:id="@+id/loading_game_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.42"
-                    android:text="資訊系迎新宿營"
-                    android:textAlignment="textStart"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/loading_game_host_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="主持人:" />
-
-                <TextView
-                    android:id="@+id/loading_game_host"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.16"
-                    android:text="陳柏翔" />
-
-                <Button
-                    android:id="@+id/bt_loading_game"
-                    android:layout_width="54dp"
-                    android:layout_height="wrap_content"
-                    android:text="啟動" />
-            </LinearLayout>
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/bt_loading_game"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.42"
+            android:text="啟動" />
 
     </LinearLayout>
 

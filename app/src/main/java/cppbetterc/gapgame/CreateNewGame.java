@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -71,13 +72,6 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-//        createGamelistView = (ListView)findViewById(R.id.list);
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        LoadingGameAdapter gameAdapter = new LoadingGameAdapter(data,inflater);
-//        createGamelistView.setAdapter(gameAdapter);
-//        createGamelistView.setOnItemClickListener(onClickListView);
-
     }
     private AdapterView.OnItemClickListener onClickListView =new AdapterView.OnItemClickListener(){
 
@@ -151,6 +145,12 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
                 new CreateNewGame.AsyncGetGameInformation().execute("getGameInformation",selectSQL);
 
                 final View LinearLayout = LayoutInflater.from(CreateNewGame.this).inflate(R.layout.loadgame_click_content,null);
+                createGamelistView = (ListView) LinearLayout.findViewById(R.id.list);
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LoadingGameAdapter gameAdapter = new LoadingGameAdapter(data,inflater);
+                createGamelistView.setAdapter(gameAdapter);
+                createGamelistView.setOnItemClickListener(onClickListView);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("LoadingGame")
                         .setView(LinearLayout)
