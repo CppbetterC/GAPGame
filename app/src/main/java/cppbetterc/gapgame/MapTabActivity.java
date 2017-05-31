@@ -29,6 +29,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
 
+import java.util.ArrayList;
+
 import static android.content.Context.LOCATION_SERVICE;
 
 
@@ -41,6 +43,9 @@ public class MapTabActivity extends Fragment implements OnMapReadyCallback, Loca
     private LatLng reLatLng,regulate;
     private float CameraPosition;
     private Button button;
+    static final LatLng FCU = new LatLng(24.178581,120.648063);
+    private ArrayList markerPoints;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.map_tab, container, false);
@@ -49,24 +54,25 @@ public class MapTabActivity extends Fragment implements OnMapReadyCallback, Loca
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
             View v = getView();
-//             Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-            button = (Button) v.findViewById(R.id.nowlocation);
-            mapFragment.getMapAsync(this);
-            LocationManager status = (LocationManager) (getActivity().getSystemService(Context.LOCATION_SERVICE));
-            if (status.isProviderEnabled(LocationManager.GPS_PROVIDER) || status.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                lms = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+//        Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        button = (Button) v.findViewById(R.id.nowlocation);
+        mapFragment.getMapAsync(this);
+        LocationManager status = (LocationManager) (getActivity().getSystemService(Context.LOCATION_SERVICE));
+        if (status.isProviderEnabled(LocationManager.GPS_PROVIDER) || status.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            lms = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            location = lms.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            }
-            else {
-                Toast.makeText(getActivity(), "請開啟定位服務", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-            lms.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000,0,this);
-            button.setOnClickListener(listen);
+        location = lms.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        else {
+            Toast.makeText(getActivity(), "請開啟定位服務", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        }
+        lms.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000,0,this);
+        button.setOnClickListener(listen);
+
         }
 
     private View.OnClickListener listen = new View.OnClickListener() {
@@ -158,4 +164,6 @@ public class MapTabActivity extends Fragment implements OnMapReadyCallback, Loca
                 Toast.makeText(getActivity(),String.valueOf(distance)+"Km",Toast.LENGTH_LONG).show();
             }
     }
+
+
 }
