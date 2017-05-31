@@ -235,7 +235,7 @@ public class CreateNewGame extends AppCompatActivity implements NavigationView.O
         protected String doInBackground(String... params) {
             String str = params[0];
             try{
-                url = new URL("http://140.134.26.31/cppbetterc/"+ str + ".php");
+                url = new URL("http://127.0.0.1/cppbetterc/"+ str + ".php");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

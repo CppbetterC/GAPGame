@@ -63,6 +63,8 @@ public class SwipeActivity extends AppCompatActivity{
             }
         });
 
+
+
     }
 
     @Override
